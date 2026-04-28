@@ -28,11 +28,17 @@ A free, offline-first, open source Point of Sale (POS) Progressive Web App built
 | Framework | React 18 + TypeScript |
 | Build Tool | Vite |
 | Styling | Tailwind CSS + shadcn/ui |
+| Theming | next-themes (dark mode) |
 | Database | IndexedDB via Dexie.js |
 | Charts | Recharts |
 | Routing | React Router DOM v6 |
+| Forms & Validation | React Hook Form + Zod |
+| State | @tanstack/react-query |
 | Icons | Lucide React |
+| Date | date-fns (id locale) |
 | PWA | vite-plugin-pwa (Workbox) |
+| Barcode | html5-qrcode |
+| Receipt | html2canvas (to PNG) |
 | Font | Plus Jakarta Sans |
 
 ---
@@ -41,7 +47,7 @@ A free, offline-first, open source Point of Sale (POS) Progressive Web App built
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v18+ (recommended via [nvm](https://github.com/nvm-sh/nvm))
+- [Bun](https://bun.sh/) (recommended) or [Node.js](https://nodejs.org/) v18+ (via [nvm](https://github.com/nvm-sh/nvm))
 - npm, yarn, or bun
 
 ### Installation
@@ -78,15 +84,20 @@ src/
 ├── index.css                # Design tokens (HSL CSS variables)
 ├── lib/
 │   ├── db.ts                # Dexie database schema, interfaces, seed data
-│   └── utils.ts             # Utility functions
+│   ├── utils.ts             # Utility functions (cn, etc.)
+│   ├── image-utils.ts       # Image compression utility
+│   └── version-check.ts     # Version check webhook
 ├── components/
 │   ├── layout/
 │   │   ├── AppLayout.tsx    # Main layout with bottom navigation
 │   │   └── BottomNav.tsx    # Bottom nav (5 tabs, center cashier CTA)
 │   ├── Onboarding.tsx       # First-run tutorial & store setup
 │   ├── BackupReminder.tsx   # Backup reminder & export utility
-│   ├── Receipt.tsx          # Receipt component
-│   └── ui/                  # shadcn/ui components
+│   ├── Receipt.tsx          # Receipt component (view, download, share, Bluetooth print)
+│   ├── BarcodeScanner.tsx   # Barcode/QR scanner via camera
+│   ├── ThemeColorPicker.tsx # Accent color picker (8 presets)
+│   ├── NavLink.tsx          # Active-state aware navigation link
+│   └── ui/                  # shadcn/ui components (40+)
 ├── pages/
 │   ├── Dashboard.tsx        # Home: stats, quick actions, low stock alerts
 │   ├── Cashier.tsx          # POS / cashier interface
@@ -96,8 +107,10 @@ src/
 │   ├── Supplier.tsx         # Supplier CRUD
 │   ├── StockIn.tsx          # Stock in + COGS calculation
 │   ├── StockOut.tsx         # Stock out
-│   └── TransactionHistory.tsx # Transaction history
-└── hooks/                   # Custom React hooks
+│   ├── StockReport.tsx      # Stock movement reports
+│   ├── TransactionHistory.tsx # Transaction history
+│   └── NotFound.tsx         # 404 page
+└── hooks/                   # Custom React hooks (usePWAInstall, useThemeColor, useIsMobile, useToast)
 ```
 
 ---
@@ -118,6 +131,7 @@ All data is stored locally in the browser using IndexedDB (via Dexie.js). No dat
 | `hppHistory` | COGS change audit trail |
 | `paymentMethods` | Payment methods (Cash, Bank Transfer, QRIS, etc.) |
 | `transactions` | Sales transactions |
+| `transactionItems` | Individual items within each transaction |
 | `storeSettings` | Store settings & app state |
 
 ### COGS Calculation (Weighted Average)
@@ -144,7 +158,7 @@ Contributions are welcome! Here's how:
 
 - All UI text is in **Bahasa Indonesia** (the app targets Indonesian users)
 - Use existing `shadcn/ui` components from `src/components/ui/`
-- All monetary values are stored as integers (Indonesian Rupiah, no decimals)
+- All monetary values are stored as numbers representing Indonesian Rupiah (no decimals)
 - Format numbers using `toLocaleString('id-ID')`
 - New features must work fully offline (no API calls)
 - Use `useLiveQuery()` from `dexie-react-hooks` for reactive data binding
@@ -153,12 +167,11 @@ Contributions are welcome! Here's how:
 
 ## 📋 Roadmap
 
-- [ ] Receipt printing (PDF/image, WhatsApp share, Bluetooth thermal printer)
-- [ ] Barcode/QR scanner via camera
-- [ ] Stock report (stock in vs out)
-- [ ] Manual COGS adjustment
-- [ ] Multi-language support (i18n)
 - [ ] Export reports to Excel/CSV
+- [ ] Multi-language support (i18n)
+- [ ] Manual COGS adjustment
+- [ ] Receipt thermal printer via USB
+- [ ] Customer management
 
 ---
 
