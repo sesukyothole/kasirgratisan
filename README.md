@@ -7,6 +7,7 @@ A free, offline-first, open source Point of Sale (POS) Progressive Web App built
 ## ✨ Features
 
 - **POS / Cashier** — Full cashier interface with cart, per-item & per-transaction discounts, payment method selection, and automatic change calculation
+- **Open Bill** — Save transactions as open bills for later checkout, with customer name, table number, and remarks
 - **Product Management** — Complete CRUD with categories, SKU, units, photos, and barcode support
 - **Stock Management** — Stock in (from suppliers) and stock out (damaged, lost, returned, etc.)
 - **Automatic COGS (HPP)** — Cost of Goods Sold is automatically calculated using the weighted average method on each stock-in
@@ -100,7 +101,7 @@ src/
 │   └── ui/                  # shadcn/ui components (40+)
 ├── pages/
 │   ├── Dashboard.tsx        # Home: stats, quick actions, low stock alerts
-│   ├── Cashier.tsx          # POS / cashier interface
+│   ├── Cashier.tsx          # POS / cashier interface with open bill (save/edit/cancel/checkout)
 │   ├── Products.tsx         # Product CRUD
 │   ├── Reports.tsx          # Sales reports & charts
 │   ├── Settings.tsx         # Settings (store, payments, categories, backup)
@@ -108,7 +109,7 @@ src/
 │   ├── StockIn.tsx          # Stock in + COGS calculation
 │   ├── StockOut.tsx         # Stock out
 │   ├── StockReport.tsx      # Stock movement reports
-│   ├── TransactionHistory.tsx # Transaction history
+│   ├── TransactionHistory.tsx # Transaction history with open bill filter tabs
 │   └── NotFound.tsx         # 404 page
 └── hooks/                   # Custom React hooks (usePWAInstall, useThemeColor, useIsMobile, useToast)
 ```
@@ -130,8 +131,8 @@ All data is stored locally in the browser using IndexedDB (via Dexie.js). No dat
 | `stockOuts` | Stock-out records |
 | `hppHistory` | COGS change audit trail |
 | `paymentMethods` | Payment methods (Cash, Bank Transfer, QRIS, etc.) |
-| `transactions` | Sales transactions |
-| `transactionItems` | Individual items within each transaction |
+| `transactions` | Sales transactions (status: open/completed, customer name, table number, remarks) |
+| `transactionItems` | Individual items within each transaction (with per-item notes) |
 | `storeSettings` | Store settings & app state |
 
 ### COGS Calculation (Weighted Average)
