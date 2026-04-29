@@ -241,6 +241,44 @@ class PosDatabase extends Dexie {
         t.status = 'completed';
       });
     });
+
+    // Version 4 — SKU unique constraint
+    this.version(4).stores({
+      categories:       '++id, name, isDeleted',
+      products:         '++id, name, &sku, categoryId, barcode, isDeleted',
+      suppliers:        '++id, name, isDeleted',
+      stockIns:         '++id, productId, supplierId, date',
+      stockOuts:        '++id, productId, date',
+      hppHistory:       '++id, productId, date',
+      paymentMethods:   '++id, name, category',
+      transactions:     '++id, date, &receiptNumber, paymentMethodId, status, orderNumber',
+      transactionItems: '++id, transactionId, productId',
+      storeSettings:    '++id',
+    }).upgrade(async (tx) => {
+      // Deduplicate SKUs before applying unique constraint
+      const prodTable = tx.table('products');
+      const allProducts = await prodTable.toArray();
+      const seenSku = new Map<string, number>(); // sku -> first occurrence index
+
+      for (const p of allProducts) {
+        const sku = (p as any).sku as string | undefined;
+        if (!sku || sku.trim() === '') continue;
+
+        if (seenSku.has(sku)) {
+          // Duplicate SKU found — append suffix to make unique
+          let counter = 1;
+          let newSku = `${sku}_dup${counter}`;
+          while (seenSku.has(newSku)) {
+            counter++;
+            newSku = `${sku}_dup${counter}`;
+          }
+          seenSku.set(newSku, (p as any).id);
+          await prodTable.update((p as any).id!, { sku: newSku });
+        } else {
+          seenSku.set(sku, (p as any).id);
+        }
+      }
+    });
   }
 }
 

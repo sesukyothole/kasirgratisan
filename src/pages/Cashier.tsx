@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, type Product, type Category, type Transaction, type TransactionItemRecord } from '@/lib/db';
-import { useState } from 'react';
-import { Search, Plus, Minus, ShoppingCart, X, Percent, Tag, CreditCard, Banknote, Check, ScanBarcode, Package as PackageIcon, ClipboardList, Save, Pencil, User, Hash, Trash2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Search, Plus, Minus, ShoppingCart, X, Percent, Tag, CreditCard, Banknote, Check, ScanBarcode, Package as PackageIcon, ClipboardList, Save, Pencil, User, Hash, Trash2, Barcode } from 'lucide-react';
 import Receipt from '@/components/Receipt';
 import BarcodeScanner from '@/components/BarcodeScanner';
 import { Card, CardContent } from '@/components/ui/card';
@@ -52,6 +52,8 @@ export default function Kasir() {
   const [tempItemNotes, setTempItemNotes] = useState('');
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [cancelTargetTx, setCancelTargetTx] = useState<Transaction | null>(null);
+  const [scanInput, setScanInput] = useState('');
+  const scanInputRef = useRef<HTMLInputElement>(null);
 
   const products = useLiveQuery(() => db.products.where('isDeleted').equals(0).toArray());
   const categories = useLiveQuery(() => db.categories.where('isDeleted').equals(0).toArray());
@@ -425,7 +427,7 @@ export default function Kasir() {
 
   const handleScan = (barcode: string) => {
     setScannerOpen(false);
-    const product = products?.find(p => p.barcode === barcode);
+    const product = products?.find(p => p.sku === barcode || p.barcode === barcode);
     if (product) {
       if (product.stock <= 0) {
         toast.error(`Stok ${product.name} habis`);
@@ -434,9 +436,34 @@ export default function Kasir() {
       addToCart(product);
       toast.success(`Ditambahkan: ${product.name}`);
     } else {
-      toast.error('Produk tidak ditemukan');
+      toast.error(`Produk dengan SKU/Barcode "${barcode}" tidak ditemukan`);
     }
   };
+
+  const handleScanKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && scanInput.trim()) {
+      const code = scanInput.trim();
+      setScanInput('');
+      const product = products?.find(p => p.sku === code || p.barcode === code);
+      if (product) {
+        if (product.stock <= 0) {
+          toast.error(`Stok ${product.name} habis`);
+          return;
+        }
+        addToCart(product);
+        toast.success(`Ditambahkan: ${product.name}`);
+      } else {
+        toast.error(`Produk dengan SKU/Barcode "${code}" tidak ditemukan`);
+      }
+    }
+  };
+
+  // Auto-focus scan input after it clears
+  useEffect(() => {
+    if (scanInput === '' && scanInputRef.current) {
+      scanInputRef.current.focus();
+    }
+  }, [scanInput]);
 
   const rp = (n: number) => `Rp ${n.toLocaleString('id-ID')}`;
 
@@ -478,6 +505,21 @@ export default function Kasir() {
         <Button variant="outline" size="icon" className="h-10 w-10 shrink-0" onClick={() => setScannerOpen(true)}>
           <ScanBarcode className="w-5 h-5" />
         </Button>
+      </div>
+
+      {/* SKU / Barcode scan input */}
+      <div className="flex gap-2 mb-3">
+        <div className="relative flex-1">
+          <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            ref={scanInputRef}
+            placeholder="Scan / ketik SKU atau Barcode lalu Enter..."
+            value={scanInput}
+            onChange={e => setScanInput(e.target.value)}
+            onKeyDown={handleScanKeyDown}
+            className="pl-9 h-10 text-sm"
+          />
+        </div>
       </div>
 
       {/* Category chips */}

@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, type Product, type Category } from '@/lib/db';
 import { useState, useRef } from 'react';
-import { Plus, Search, Edit2, Trash2, Package as PackageIcon, Camera, X } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, Package as PackageIcon, Camera, X, Copy } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -75,7 +75,19 @@ export default function Produk() {
   };
 
   const handleSave = async () => {
-    if (!name.trim() || !categoryId) return;
+    if (!name.trim() || !categoryId || !sku.trim()) return;
+
+    // Check SKU uniqueness
+    const existing = await db.products
+      .where('sku')
+      .equals(sku.trim())
+      .filter(p => p.isDeleted === 0)
+      .first();
+    if (existing && existing.id !== editProduct?.id) {
+      toast.error(`SKU "${sku.trim()}" sudah digunakan oleh produk "${existing.name}"`);
+      return;
+    }
+
     const data = {
       name: name.trim(),
       sku: sku.trim(),
@@ -262,8 +274,8 @@ export default function Produk() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>SKU</Label>
-                <Input value={sku} onChange={e => setSku(e.target.value)} placeholder="NG001" className="h-11" />
+                <Label>SKU *</Label>
+                <Input value={sku} onChange={e => setSku(e.target.value)} placeholder="Wajib diisi, contoh: NG001" className="h-11" />
               </div>
               <div className="space-y-1.5">
                 <Label>Kategori *</Label>
@@ -306,9 +318,21 @@ export default function Produk() {
             </div>
             <div className="space-y-1.5">
               <Label>Barcode</Label>
-              <Input value={barcode} onChange={e => setBarcode(e.target.value)} placeholder="Opsional" className="h-11" />
+              <div className="flex gap-2">
+                <Input value={barcode} onChange={e => setBarcode(e.target.value)} placeholder="Opsional" className="h-11 flex-1" />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="h-11 w-11 shrink-0"
+                  title="Salin dari SKU"
+                  onClick={() => setBarcode(sku.trim())}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
-            <Button className="w-full h-12 text-base font-semibold" onClick={handleSave} disabled={!name.trim() || !categoryId}>
+            <Button className="w-full h-12 text-base font-semibold" onClick={handleSave} disabled={!name.trim() || !categoryId || !sku.trim()}>
               {editProduct ? 'Simpan Perubahan' : 'Tambah Produk'}
             </Button>
           </div>
