@@ -8,14 +8,16 @@ A free, offline-first, open source Point of Sale (POS) Progressive Web App built
 
 - **POS / Cashier** — Full cashier interface with cart, per-item & per-transaction discounts, payment method selection, and automatic change calculation
 - **Open Bill** — Save transactions as open bills for later checkout, with customer name, table number, and remarks
-- **Product Management** — Complete CRUD with categories, SKU, units, photos, and barcode support
+- **Responsive Layout** — Mobile-first phone UI with landscape/tablet mode featuring side-by-side cashier (products + cart) and adaptive grid columns
+- **Barcode Scanning** — Scan product barcodes via camera (supports EAN-13, EAN-8, UPC-A, UPC-E, Code-128, QR) or manual keyboard entry
+- **Product Management** — Complete CRUD with categories, SKU (unique & required), units, photos, and barcode support
 - **Stock Management** — Stock in (from suppliers) and stock out (damaged, lost, returned, etc.)
 - **Automatic COGS (HPP)** — Cost of Goods Sold is automatically calculated using the weighted average method on each stock-in
 - **Sales Reports** — 7/30 day sales charts, top products, total revenue & profit
-- **Transaction History** — Browse completed transactions
+- **Transaction History** — Browse completed transactions with open bill filter tabs
 - **Supplier Management** — Manage supplier contacts and details
 - **Backup & Restore** — Export/import all data as JSON, with automatic backup reminders
-- **PWA** — Installable to home screen, fully offline with Service Worker (Workbox)
+- **PWA** — Installable to home screen, fully offline with Service Worker (Workbox), supports any orientation
 - **Onboarding** — Interactive tutorial for first-time users
 - **Dark Mode** — Full dark theme support
 - **Theme Customization** — Pick your preferred accent color
@@ -38,8 +40,8 @@ A free, offline-first, open source Point of Sale (POS) Progressive Web App built
 | Icons | Lucide React |
 | Date | date-fns (id locale) |
 | PWA | vite-plugin-pwa (Workbox) |
-| Barcode | html5-qrcode |
-| Receipt | html2canvas (to PNG) |
+| Barcode | html5-qrcode (camera scanner + manual input) |
+| Receipt | html2canvas (to PNG), Web Bluetooth Print |
 | Font | Plus Jakarta Sans |
 
 ---
@@ -90,18 +92,17 @@ src/
 │   └── version-check.ts     # Version check webhook
 ├── components/
 │   ├── layout/
-│   │   ├── AppLayout.tsx    # Main layout with bottom navigation
+│   │   ├── AppLayout.tsx    # Main layout (responsive: max-w-lg mobile, max-w-6xl tablet/landscape)
 │   │   └── BottomNav.tsx    # Bottom nav (5 tabs, center cashier CTA)
 │   ├── Onboarding.tsx       # First-run tutorial & store setup
 │   ├── BackupReminder.tsx   # Backup reminder & export utility
 │   ├── Receipt.tsx          # Receipt component (view, download, share, Bluetooth print)
-│   ├── BarcodeScanner.tsx   # Barcode/QR scanner via camera
+│   ├── BarcodeScanner.tsx   # Barcode/QR scanner via camera (EAN, UPC, Code-128, QR)
 │   ├── ThemeColorPicker.tsx # Accent color picker (8 presets)
-│   ├── NavLink.tsx          # Active-state aware navigation link
 │   └── ui/                  # shadcn/ui components (40+)
 ├── pages/
 │   ├── Dashboard.tsx        # Home: stats, quick actions, low stock alerts
-│   ├── Cashier.tsx          # POS / cashier interface with open bill (save/edit/cancel/checkout)
+│   ├── Cashier.tsx          # POS / cashier (barcode scan input, camera scanner, side-by-side cart on landscape)
 │   ├── Products.tsx         # Product CRUD
 │   ├── Reports.tsx          # Sales reports & charts
 │   ├── Settings.tsx         # Settings (store, payments, categories, backup)
