@@ -561,6 +561,11 @@ export default function Kasir() {
                   <div className="p-2.5">
                     <h3 className="text-xs font-semibold truncate">{p.name}</h3>
                     <p className="text-sm font-bold text-primary mt-0.5">Rp {p.price.toLocaleString('id-ID')}</p>
+                    {p.description && (
+                      <p className="text-[10px] text-muted-foreground mt-0.5 truncate" title={p.description}>
+                        {p.description}
+                      </p>
+                    )}
                     <p className="text-[10px] text-muted-foreground mt-0.5">Stok: {p.stock} {p.unit}</p>
                   </div>
                 </CardContent>

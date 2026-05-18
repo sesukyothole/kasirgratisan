@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -30,6 +31,7 @@ export default function Produk() {
   const [stock, setStock] = useState('');
   const [unit, setUnit] = useState('pcs');
   const [barcode, setBarcode] = useState('');
+  const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +39,11 @@ export default function Produk() {
   const categories = useLiveQuery(() => db.categories.where('isDeleted').equals(0).toArray());
 
   const filtered = products?.filter(p => {
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.sku.toLowerCase().includes(search.toLowerCase());
+    const q = search.toLowerCase();
+    const matchSearch =
+      p.name.toLowerCase().includes(q) ||
+      p.sku.toLowerCase().includes(q) ||
+      (p.description?.toLowerCase().includes(q) ?? false);
     const matchCategory = filterCategory === 'all' || p.categoryId === Number(filterCategory);
     return matchSearch && matchCategory;
   }) ?? [];
@@ -47,13 +53,13 @@ export default function Produk() {
 
   const openAdd = () => {
     setEditProduct(null);
-    setName(''); setSku(''); setCategoryId(categories?.[0]?.id?.toString() ?? ''); setPrice(''); setHpp(''); setStock(''); setUnit('pcs'); setBarcode(''); setPhoto(undefined);
+    setName(''); setSku(''); setCategoryId(categories?.[0]?.id?.toString() ?? ''); setPrice(''); setHpp(''); setStock(''); setUnit('pcs'); setBarcode(''); setDescription(''); setPhoto(undefined);
     setDialogOpen(true);
   };
 
   const openEdit = (p: Product) => {
     setEditProduct(p);
-    setName(p.name); setSku(p.sku); setCategoryId(p.categoryId.toString()); setPrice(p.price.toString()); setHpp(p.hpp.toString()); setStock(p.stock.toString()); setUnit(p.unit); setBarcode(p.barcode ?? ''); setPhoto(p.photo);
+    setName(p.name); setSku(p.sku); setCategoryId(p.categoryId.toString()); setPrice(p.price.toString()); setHpp(p.hpp.toString()); setStock(p.stock.toString()); setUnit(p.unit); setBarcode(p.barcode ?? ''); setDescription(p.description ?? ''); setPhoto(p.photo);
     setDialogOpen(true);
   };
 
@@ -96,6 +102,7 @@ export default function Produk() {
       hpp: Number(hpp) || 0,
       stock: Number(stock) || 0,
       unit: unit.trim() || 'pcs',
+      description: description.trim() || undefined,
       barcode: barcode.trim() || undefined,
       photo: photo || undefined,
       updatedAt: new Date(),
@@ -188,6 +195,11 @@ export default function Produk() {
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5">SKU: {p.sku || '-'}</p>
+                    {p.description && (
+                      <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2 whitespace-pre-line">
+                        {p.description}
+                      </p>
+                    )}
                     <div className="flex items-center gap-3 mt-1.5">
                       <span className="text-sm font-bold text-primary">Rp {p.price.toLocaleString('id-ID')}</span>
                       <span className="text-xs text-muted-foreground">HPP: Rp {p.hpp.toLocaleString('id-ID')}</span>
@@ -331,6 +343,17 @@ export default function Produk() {
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>Deskripsi</Label>
+              <Textarea
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="Catatan/info tambahan, mis: isi 5 pcs, level pedas, supplier"
+                rows={3}
+                maxLength={500}
+              />
+              <p className="text-[10px] text-muted-foreground text-right">{description.length}/500</p>
             </div>
             <Button className="w-full h-12 text-base font-semibold" onClick={handleSave} disabled={!name.trim() || !categoryId || !sku.trim()}>
               {editProduct ? 'Simpan Perubahan' : 'Tambah Produk'}

@@ -21,6 +21,7 @@ export interface Product {
   hpp: number; // harga pokok penjualan
   stock: number;
   unit: string; // satuan: pcs, kg, liter, dll
+  description?: string; // deskripsi/catatan produk (opsional, multi-line)
   photo?: string; // base64 or blob URL
   barcode?: string;
   createdAt: Date;
