@@ -769,6 +769,14 @@ export default function Pengaturan() {
              >
                ☕ Traktir Kopi untuk Developer
              </a>
+             <a
+               href="https://t.me/kasirgratisan"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="flex items-center justify-center gap-2 w-full h-9 rounded-lg border border-sky-500/30 bg-sky-500/5 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:bg-sky-500/10 transition-colors"
+             >
+               💬 Gabung Grup Telegram
+             </a>
            </div>
            {storageUsage && (
              <div className="pt-2 border-t">
