@@ -489,5 +489,150 @@
       "duplicate": "Unit \"{{name}}\" sudah ada",
       "wasDeleted": "Unit \"{{name}}\" pernah dipadam. Guna nama lain atau pulihkan via backup."
     }
+  },
+  "cashier": {
+    "locked": {
+      "title": "Kasir",
+      "permissionLabel": "Buat Transaksi"
+    },
+    "title": "Kasir",
+    "editingBill": "Editing Bill",
+    "openBill": "Open Bill",
+    "searchPlaceholder": "Cari produk...",
+    "scanPlaceholder": "Scan / taip SKU atau Barcode kemudian Enter...",
+    "categoryAll": "Semua",
+    "empty": {
+      "outOfStock": "Semua produk kehabisan stok. Tambah stok dulu di menu Stok Masuk.",
+      "noProducts": "Belum ada produk. Tambah produk dulu di menu Produk."
+    },
+    "productCard": {
+      "stock": "Stok: {{stock}} {{unit}}",
+      "alwaysAvailable": "Sentiasa tersedia"
+    },
+    "cart": {
+      "title": "Troli ({{count}} item)",
+      "empty": "Troli kosong",
+      "editLabel": "— edit",
+      "editOpenBillLabel": "— edit open bill"
+    },
+    "itemNotes": {
+      "add": "Tambah nota",
+      "placeholder": "Cth: less sugar..."
+    },
+    "itemDiscount": {
+      "add": "Tambah diskaun",
+      "change": "Ubah diskaun"
+    },
+    "cartDiscount": {
+      "label": "Diskaun",
+      "add": "Tambah Diskaun",
+      "change": "Ubah",
+      "subtotal": "Subtotal",
+      "discount": "Diskaun",
+      "total": "Jumlah"
+    },
+    "buttons": {
+      "saveBill": "Simpan Bil",
+      "pay": "Bayar",
+      "cancelBill": "Batalkan Bil Ini",
+      "ok": "OK",
+      "cancel": "Batal"
+    },
+    "checkout": {
+      "title": "Pembayaran",
+      "totalLabel": "Jumlah Bayar",
+      "debtLabel": "Bayar dengan hutang",
+      "debtDesc": "Pembayaran boleh separuh atau sepenuhnya hutang",
+      "paymentMethod": "Kaedah Pembayaran",
+      "amountLabel": {
+        "debt": "Bayaran Awal",
+        "full": "Jumlah Bayar"
+      },
+      "amountPlaceholder": "Masukkan jumlah bayar...",
+      "exactMoney": "Wang Pas",
+      "reset": "Reset",
+      "table": "Meja",
+      "notes": "Nota tambahan (pilihan)",
+      "remainingDebt": "Baki Hutang",
+      "remainingDebtHint": "Pelanggan mesti dipilih dari senarai",
+      "changeLabel": "Baki",
+      "confirmButton": "Sahkan Transaksi"
+    },
+    "discountDialog": {
+      "title": "Diskaun Transaksi",
+      "typeLabel": "Jenis Diskaun",
+      "type": {
+        "nominal": "Nominal ({{symbol}})",
+        "percentage": "Peratus (%)"
+      },
+      "amountLabel": {
+        "nominal": "Jumlah Diskaun",
+        "percentage": "Peratusan Diskaun"
+      },
+      "placeholder": {
+        "nominal": "Cth: 5000",
+        "percentage": "Cth: 10"
+      },
+      "percentPreview": "= {{symbol}} {{amount}} daripada {{symbol}} {{subtotal}}",
+      "delete": "Padam",
+      "save": "Simpan Diskaun"
+    },
+    "itemDiscountDialog": {
+      "title": "Diskaun Item",
+      "itemLabel": "Item",
+      "typeLabel": "Jenis Diskaun",
+      "type": {
+        "nominal": "Nominal ({{symbol}})",
+        "percentage": "Peratus (%)"
+      },
+      "amountLabel": {
+        "nominal": "Jumlah Diskaun",
+        "percentage": "Peratusan Diskaun"
+      },
+      "placeholder": {
+        "nominal": "Cth: 5000",
+        "percentage": "Cth: 10"
+      },
+      "cappedPreview": {
+        "exceeds": "Dihadkan automatik kepada {{cap}}",
+        "normal": "Diskaun: -{{amount}} → subtotal {{subtotal}}"
+      },
+      "delete": "Padam",
+      "save": "Simpan Diskaun"
+    },
+    "openBillsSheet": {
+      "title": "Open Bills ({{count}})",
+      "empty": "Tiada bil terbuka",
+      "continue": "Teruskan",
+      "cancel": "Batal",
+      "tablePrefix": "Meja {{number}}"
+    },
+    "cancelDialog": {
+      "title": "Batalkan Bil?",
+      "description": "Bil ini akan dipadam dan stok produk akan dikembalikan.",
+      "no": "Tidak",
+      "yes": "Batalkan Bil"
+    },
+    "paymentMethod": {
+      "cash": "Tunai",
+      "debt": "Hutang",
+      "initialPayment": "Bayaran awal"
+    },
+    "toast": {
+      "stockLow": "Stok tidak mencukupi",
+      "stockLowWithMax": "Stok tidak mencukupi, maksimum {{max}}",
+      "addedToCart": "Ditambah: {{name}}",
+      "productNotFound": "Produk dengan SKU/Barcode \"{{code}}\" tidak ditemui",
+      "productOutOfStock": "Stok {{name}} habis",
+      "billUpdated": "Bil {{receiptNumber}} dikemas kini!",
+      "billSaved": "Bil {{receiptNumber}} disimpan!",
+      "billCancelled": "Bil {{receiptNumber}} dibatalkan",
+      "transactionSuccess": "Transaksi berjaya! {{receiptNumber}}",
+      "cartEmpty": "Troli kosong",
+      "selectCustomerForDebt": "Pilih pelanggan dari senarai untuk transaksi hutang",
+      "paymentAmountRange": "Jumlah bayar mesti antara {{symbol}}0 dan jumlah transaksi",
+      "selectPaymentMethod": "Pilih kaedah untuk bayaran awal",
+      "productNotFoundLoadBill": "Produk \"{{name}}\" tidak ditemui"
+    }
   }
 }

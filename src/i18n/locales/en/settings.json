@@ -939,5 +939,151 @@
       "duplicate": "Unit \"{{name}}\" already exists",
       "wasDeleted": "Unit \"{{name}}\" was previously deleted. Use a different name or restore via backup."
     }
+  },
+  "cashier": {
+    "locked": {
+      "title": "Cashier",
+      "permissionLabel": "Create Transaction"
+    },
+    "title": "Cashier",
+    "editingBill": "Editing Bill",
+    "openBill": "Open Bill",
+    "searchPlaceholder": "Search products...",
+    "scanPlaceholder": "Scan / type SKU or Barcode then press Enter...",
+    "categoryAll": "All",
+    "empty": {
+      "outOfStock": "All products are out of stock. Add stock first in the Stock In menu.",
+      "noProducts": "No products yet. Add products first in the Products menu."
+    },
+    "productCard": {
+      "stock": "Stock: {{stock}} {{unit}}",
+      "alwaysAvailable": "Always available"
+    },
+    "cart": {
+      "title": "Cart ({{count}} item)",
+      "title_other": "Cart ({{count}} items)",
+      "empty": "Cart is empty",
+      "editLabel": "— edit",
+      "editOpenBillLabel": "— edit open bill"
+    },
+    "itemNotes": {
+      "add": "Add note",
+      "placeholder": "e.g. less sugar..."
+    },
+    "itemDiscount": {
+      "add": "Add discount",
+      "change": "Change discount"
+    },
+    "cartDiscount": {
+      "label": "Discount",
+      "add": "Add Discount",
+      "change": "Change",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total"
+    },
+    "buttons": {
+      "saveBill": "Save Bill",
+      "pay": "Pay",
+      "cancelBill": "Cancel This Bill",
+      "ok": "OK",
+      "cancel": "Cancel"
+    },
+    "checkout": {
+      "title": "Payment",
+      "totalLabel": "Total to Pay",
+      "debtLabel": "Pay with debt",
+      "debtDesc": "Payment may be partially or fully as debt",
+      "paymentMethod": "Payment Method",
+      "amountLabel": {
+        "debt": "Initial Payment",
+        "full": "Payment Amount"
+      },
+      "amountPlaceholder": "Enter payment amount...",
+      "exactMoney": "Exact Amount",
+      "reset": "Reset",
+      "table": "Table",
+      "notes": "Additional notes (optional)",
+      "remainingDebt": "Remaining Debt",
+      "remainingDebtHint": "Customer must be selected from the list",
+      "changeLabel": "Change",
+      "confirmButton": "Confirm Transaction"
+    },
+    "discountDialog": {
+      "title": "Transaction Discount",
+      "typeLabel": "Discount Type",
+      "type": {
+        "nominal": "Nominal ({{symbol}})",
+        "percentage": "Percent (%)"
+      },
+      "amountLabel": {
+        "nominal": "Discount Amount",
+        "percentage": "Discount Percentage"
+      },
+      "placeholder": {
+        "nominal": "e.g. 5000",
+        "percentage": "e.g. 10"
+      },
+      "percentPreview": "= {{symbol}} {{amount}} of {{symbol}} {{subtotal}}",
+      "delete": "Delete",
+      "save": "Save Discount"
+    },
+    "itemDiscountDialog": {
+      "title": "Item Discount",
+      "itemLabel": "Item",
+      "typeLabel": "Discount Type",
+      "type": {
+        "nominal": "Nominal ({{symbol}})",
+        "percentage": "Percent (%)"
+      },
+      "amountLabel": {
+        "nominal": "Discount Amount",
+        "percentage": "Discount Percentage"
+      },
+      "placeholder": {
+        "nominal": "e.g. 5000",
+        "percentage": "e.g. 10"
+      },
+      "cappedPreview": {
+        "exceeds": "Automatically capped to {{cap}}",
+        "normal": "Discount: -{{amount}} → subtotal {{subtotal}}"
+      },
+      "delete": "Delete",
+      "save": "Save Discount"
+    },
+    "openBillsSheet": {
+      "title": "Open Bills ({{count}})",
+      "empty": "No open bills",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "tablePrefix": "Table {{number}}"
+    },
+    "cancelDialog": {
+      "title": "Cancel Bill?",
+      "description": "This bill will be deleted and product stock will be restored.",
+      "no": "No",
+      "yes": "Cancel Bill"
+    },
+    "paymentMethod": {
+      "cash": "Cash",
+      "debt": "Debt",
+      "initialPayment": "Initial payment"
+    },
+    "toast": {
+      "stockLow": "Insufficient stock",
+      "stockLowWithMax": "Insufficient stock, max {{max}}",
+      "addedToCart": "Added: {{name}}",
+      "productNotFound": "Product with SKU/Barcode \"{{code}}\" not found",
+      "productOutOfStock": "{{name}} out of stock",
+      "billUpdated": "Bill {{receiptNumber}} updated!",
+      "billSaved": "Bill {{receiptNumber}} saved!",
+      "billCancelled": "Bill {{receiptNumber}} cancelled",
+      "transactionSuccess": "Transaction successful! {{receiptNumber}}",
+      "cartEmpty": "Cart is empty",
+      "selectCustomerForDebt": "Select a customer from the list for debt transactions",
+      "paymentAmountRange": "Payment amount must be between {{symbol}}0 and the transaction total",
+      "selectPaymentMethod": "Select a method for the initial payment",
+      "productNotFoundLoadBill": "Product \"{{name}}\" not found"
+    }
   }
 }
